@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_study/src/models/models.dart';
 import 'package:flutter_study/src/widgets/widgets.dart';
+import 'package:http/http.dart' as http;
 
 part 'home_screen.dart';
 part 'menu_screen.dart';

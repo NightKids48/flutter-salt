@@ -1,26 +1,47 @@
 part of 'models.dart';
 
+// To parse this JSON data, do
+//
+//     final productModel = productModelFromJson(jsonString);
+
+List<ProductModel> productModelFromJson(String str) => List<ProductModel>.from(
+    json.decode(str).map((e) => ProductModel.fromJson(e)));
+
+String productModelToJson(List<ProductModel> data) =>
+    json.encode(List<dynamic>.from(data.map((e) => e.toJson())));
+
 class ProductModel {
-  final String? productName;
-  final String? productDesc;
-  final String? imageUrl;
-  final double? productPrice;
+  ProductModel({
+    this.id,
+    this.title,
+    this.price,
+    this.description,
+    this.category,
+    this.image,
+  });
 
-  ProductModel(
-      {this.productName, this.productDesc, this.imageUrl, this.productPrice});
+  final int? id;
+  final String? title;
+  final double? price;
+  final String? description;
+  final String? category;
+  final String? image;
+
+  factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
+        id: json["id"],
+        title: json["title"],
+        price: json["price"].toDouble(),
+        description: json["description"],
+        category: json["category"],
+        image: json["image"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "title": title,
+        "price": price,
+        "description": description,
+        "category": category,
+        "image": image,
+      };
 }
-
-List<ProductModel> products = [
-  ProductModel(
-      productName: 'Katana',
-      productDesc: 'Hyorinmaru',
-      imageUrl:
-          'https://cdn.icon-icons.com/icons2/332/PNG/256/katana_35313.png',
-      productPrice: 50000),
-  ProductModel(
-      productName: 'Katana',
-      productDesc: 'Hyorinmaru',
-      imageUrl:
-          'https://cdn.icon-icons.com/icons2/332/PNG/256/Katana_-_Saido_35314.png',
-      productPrice: 50000)
-];

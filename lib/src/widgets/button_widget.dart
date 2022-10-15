@@ -11,8 +11,7 @@ class ButtonWidget extends StatelessWidget {
       required this.caption,
       this.isloading = false,
       this.width,
-      required this.onPressed,
-      required bool isLoading});
+      required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -24,16 +23,17 @@ class ButtonWidget extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          backgroundColor: Colors.white,
+          // ignore: deprecated_member_use
+          primary: Colors.pink,
           elevation: 0.0,
         ),
         onPressed: (isloading) ? null : onPressed,
         child: const Padding(
           padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Text(
-            'LOGIN',
+            'L O G I N',
             style: TextStyle(
-              color: Colors.black38,
+              color: Colors.white,
               fontSize: 15,
             ),
           ),
