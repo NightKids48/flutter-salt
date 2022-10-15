@@ -9,8 +9,8 @@ class ContactWidgets extends StatelessWidget {
     return Row(children: [
       Image.network(
         data.imageUrl,
-        width: 65,
-        height: 65,
+        width: 55,
+        height: 55,
       ),
       const SizedBox(width: 35),
       Column(
