@@ -11,11 +11,6 @@ Widget _buildEmail2() {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      const Text(
-        'Email',
-        style: TextStyle(color: Colors.blue, fontSize: 15),
-      ),
-      const SizedBox(height: 5),
       Container(
         alignment: Alignment.centerLeft,
         decoration: BoxDecoration(
@@ -46,11 +41,6 @@ Widget _buildPassword2() {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      const Text(
-        'Pasword',
-        style: TextStyle(color: Colors.blue, fontSize: 15),
-      ),
-      const SizedBox(height: 5),
       Container(
         alignment: Alignment.centerLeft,
         decoration: BoxDecoration(
@@ -136,13 +126,13 @@ class _LoginScreenState extends State<LoginScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text(
-              'Hello Again!',
+              'Hello Again',
               style: TextStyle(
                   color: Colors.teal,
                   fontSize: 35,
                   fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 65),
             _buildEmail2(),
             const SizedBox(height: 25),
             _buildPassword2(),

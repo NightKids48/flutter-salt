@@ -1,9 +1,5 @@
 part of 'models.dart';
 
-// To parse this JSON data, do
-//
-//     final detailProductModel = detailProductModelFromJson(jsonString);
-
 DetailProductModel detailProductModelFromJson(String str) =>
     DetailProductModel.fromJson(json.decode(str));
 
@@ -18,7 +14,6 @@ class DetailProductModel {
     this.description,
     this.category,
     this.image,
-    this.rating,
   });
 
   final int? id;
@@ -27,7 +22,6 @@ class DetailProductModel {
   final String? description;
   final String? category;
   final String? image;
-  final Rating? rating;
 
   factory DetailProductModel.fromJson(Map<String, dynamic> json) =>
       DetailProductModel(
@@ -37,7 +31,6 @@ class DetailProductModel {
         description: json["description"],
         category: json["category"],
         image: json["image"],
-        rating: Rating.fromJson(json["Detailrating"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -47,12 +40,5 @@ class DetailProductModel {
         "description": description,
         "category": category,
         "image": image,
-        "rating": rating!.toJson(),
       };
-}
-
-class Rating {
-  static fromJson(json) {}
-
-  toJson() {}
 }

@@ -8,39 +8,53 @@ class ListScreen extends StatefulWidget {
 }
 
 class _ListScreenState extends State<ListScreen> {
-  int bottomNavBarindex = 1;
+  int bottomNavBarIndex = 0;
+  Future<dynamic> onReceiveNotif(int id, String? title, String? body) async {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(title!),
+          content: Text(body!),
+          actions: [
+            TextButton(
+              onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Kamu Mendapatkan $body')));
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    // ignore: unused_local_variable
     return Scaffold(
-      appBar: AppBar(
-          title: const Text('List Kontak'), backgroundColor: Colors.teal),
-      bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Colors.white,
-        backgroundColor: Colors.teal,
-        currentIndex: bottomNavBarindex,
-        onTap: (value) {
-          setState(() {
-            // ignore: avoid_print
-            print('Kamu pilih pintu yang $value');
-            bottomNavBarindex = value;
-            // ignore: avoid_print
-            print('bottomNavBarIndex kamu sudah jadi $value');
-          });
-        },
-        items: const [
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.list,
-              ),
-              label: 'ListView'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.grid_3x3), label: 'GridView'),
-        ],
-      ),
-      body:
-          (bottomNavBarindex == 0) ? const ListProduct() : const GridProduct(),
-    );
+        appBar: AppBar(
+            title: const Text('List Produk'), backgroundColor: Colors.teal),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: bottomNavBarIndex,
+          onTap: (value) {
+            setState(() {
+              bottomNavBarIndex = value;
+            });
+          },
+          backgroundColor: Colors.teal,
+          selectedItemColor: Colors.white,
+          // ignore: prefer_const_literals_to_create_immutables
+          items: [
+            const BottomNavigationBarItem(
+                icon: Icon(Icons.list), label: 'List View'),
+            const BottomNavigationBarItem(
+                icon: Icon(Icons.grid_3x3), label: 'Grid View'),
+          ],
+        ),
+        body: (bottomNavBarIndex == 0)
+            ? const ListProduct()
+            : const GridProduct());
   }
 }
 
@@ -49,15 +63,31 @@ class GridProduct extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.count(
-      crossAxisCount: 1,
-      children: products
-          .map((e) => ProductWidget(
-                product: e,
-              ))
-          .toList(),
+    return FutureBuilder<http.Response>(
+      future: http.get(Uri.parse("https://fakestoreapi.com/products")),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        if (snapshot.hasData) {
+          final products = productModelFromJson(snapshot.data!.body);
+          return GridView.count(
+            crossAxisCount: 2,
+            children: products
+                .map((e) => ProductWidget(
+                      product: e,
+                    ))
+                .toList(),
+          );
+        }
+        return Container();
+      },
     );
   }
+
+  productModelFromJson(String body) {}
 }
 
 class ListProduct extends StatelessWidget {
@@ -67,12 +97,26 @@ class ListProduct extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: contacts.length,
-      itemBuilder: (context, index) {
-        return ContactWidgets(
-          data: contacts[index],
-        );
+    return FutureBuilder<http.Response>(
+      future: http.get(Uri.parse("https://fakestoreapi.com/products")),
+      builder: (context, snapshot) {
+        //Widget ketika loading
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        //Widget ketika datanya di load
+        if (snapshot.hasData) {
+          final products = productModelFromJson(snapshot.data!.body);
+
+          return ListView.builder(
+            itemCount: products.length,
+            itemBuilder: (context, index) =>
+                ProductWidget(product: products[index]),
+          );
+        }
+        return Container();
       },
     );
   }
