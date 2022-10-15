@@ -128,7 +128,7 @@ class _LoginScreenState extends State<LoginScreen> {
             const Text(
               'Hello Again',
               style: TextStyle(
-                  color: Colors.teal,
+                  color: Color.fromARGB(255, 0, 132, 150),
                   fontSize: 35,
                   fontWeight: FontWeight.bold),
             ),

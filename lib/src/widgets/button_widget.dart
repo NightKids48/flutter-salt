@@ -24,7 +24,7 @@ class ButtonWidget extends StatelessWidget {
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           // ignore: deprecated_member_use
-          primary: Colors.pink,
+          primary: const Color.fromARGB(255, 30, 169, 233),
           elevation: 0.0,
         ),
         onPressed: (isloading) ? null : onPressed,

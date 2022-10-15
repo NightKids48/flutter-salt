@@ -42,7 +42,7 @@ class _ListScreenState extends State<ListScreen> {
               bottomNavBarIndex = value;
             });
           },
-          backgroundColor: Colors.teal,
+          backgroundColor: const Color.fromARGB(255, 0, 127, 150),
           selectedItemColor: Colors.white,
           // ignore: prefer_const_literals_to_create_immutables
           items: [
