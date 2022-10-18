@@ -8,7 +8,7 @@ class ListScreen extends StatefulWidget {
 }
 
 class _ListScreenState extends State<ListScreen> {
-  int bottomNavBarIndex = 0;
+  NotificationService notifService = NotificationService();
   Future<dynamic> onReceiveNotif(int id, String? title, String? body) async {
     showDialog(
       context: context,
@@ -28,6 +28,48 @@ class _ListScreenState extends State<ListScreen> {
         );
       },
     );
+  }
+
+  String nama = '';
+  int bottomNavBarIndex = 0;
+
+  void showNotif() {
+    notifService.showNotif('Ini Tittlenya', 'Makan Gratis', '1');
+  }
+
+  void onDidReceiveNotificationResponse(
+      NotificationResponse notificationResponse) async {
+    final String? payload = notificationResponse.payload;
+    if (notificationResponse.payload != null) {
+      debugPrint('notification payload: $payload');
+    }
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: const Text('Kamu Jelek'),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Close'))
+              ],
+            ));
+
+    await Navigator.push(
+      context,
+      MaterialPageRoute<void>(
+          builder: (context) => DetailProductScreen(
+                productId: int.parse(payload!),
+              )),
+    );
+  }
+
+  @override
+  void initState() {
+    notifService.init((p0, p1, p2, p3) => onReceiveNotif(p0, p1, p3),
+        onDidReceiveNotificationResponse);
+    super.initState();
   }
 
   @override
@@ -86,8 +128,6 @@ class GridProduct extends StatelessWidget {
       },
     );
   }
-
-  productModelFromJson(String body) {}
 }
 
 class ListProduct extends StatelessWidget {

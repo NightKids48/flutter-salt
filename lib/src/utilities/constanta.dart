@@ -1,4 +1,4 @@
 part of 'utilities.dart';
 
-const channelid = '1';
-const appIcon = "app_icon";
+const channelId = '1';
+const appIcon = 'app_icon';
